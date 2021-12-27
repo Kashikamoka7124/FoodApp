@@ -1,0 +1,136 @@
+
+    const getCart = async() => {
+      user = await AsyncStorage.getItem("Users")
+
+      if(user){
+        data = {
+          'token' : user
+        }
+        axios({
+          method: 'post',
+          url: `${URL.GET_CART}`,
+          data: data,
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          }
+        }).then( async(response) => {
+          if (response.status === 200){
+             await dispatch(
+                  addcart(payload = data)
+              )
+  
+          }
+  
+        }).catch((e) => {
+            console.log("error ====>>>>", e)
+
+        });
+      }
+    }
+    const check_user = async() =>{
+      user = await AsyncStorage.getItem("Users")
+
+      if(user){
+          data = {
+            'token' : user
+          }
+          axios({
+            method: 'post',
+            url: `${URL.CHECK_USER}`,
+            data: data,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+          }).then(async (response) => {
+            if (response.status === 200){
+                await dispatch(
+                    setLogIn(payload = {
+                    token :response.data.users.token,
+                    LoggedIn: true
+                  })
+                )
+                // set_login(response.data)
+                // console.log("Response", response.data.users.token)
+    
+            }
+    
+          }).catch((e) => {
+              console.log("error ====>>>>", e)
+              LOGOUT()
+              set_user_logout()
+            //   return 
+          });
+    
+      }
+    }
+    getCart()
+
+    check_user()
+
+
+
+
+    // 2ND 
+
+
+    const checkUser = async() => {
+      let user = await AsyncStorage.getItem("Users")
+      let userData = {
+        token: user
+      }
+      console.log("Kashi kamoka", userData)
+      return new Promise((resolve, reject) => {
+        if(user){
+          axios({
+            method: 'post',
+            url: `${URL.CHECK_USER}`,
+            data: userData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+          }).then(async (response) => {
+            if (response.status === 200){
+                await dispatch(
+                    setLogIn(payload = {
+                    token :response.data.users.token,
+                    LoggedIn: true
+                  })
+                )
+                // set_login(data = user)
+                console.log("Set Login", response.data.users.token)
+                resolve()
+            }else{
+              reject()
+            }      
+          }).catch((e) => {
+              console.log("error ====>>>>", e)
+              LOGOUT()
+              set_user_logout()
+            //   return 
+          });
+      }
+      })
+    }
+    const checkCart = () => {
+      checkUser().then(async (r)=>{
+          let user = await AsyncStorage.getItem("Users")
+          if(user){
+            axios({
+              method: 'post',
+              url: `${URL.GET_CART}`,
+              data: userData,
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              }
+            }).then( async(response) =>{
+              console.log("Cart data", response.data)
+            })
+          }
+      })
+    }
+    // checkUser()
+    checkCart()

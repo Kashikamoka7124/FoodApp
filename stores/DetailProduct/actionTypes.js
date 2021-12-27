@@ -1,0 +1,4 @@
+export const DetailActionTypes = {
+    GET_DETAIL_PRODUCTS: "GET_DETAIL_PRODUCTS",
+    SET_DETAIL_PRODUCTS: "SET_DETAIL_PRODUCTS"
+}

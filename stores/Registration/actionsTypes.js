@@ -1,0 +1,5 @@
+export const ActionTypes = {
+    SET_LOGGED_IN : "SET_LOGGED_IN",
+    SET_LOGGED_OUT: "SET_LOGGED_OUT",
+    CHECK_STATUS: "CHECK_STATUS",
+}
